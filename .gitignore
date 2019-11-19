@@ -1,0 +1,6 @@
+bin/vim/*
+.vim/plugins/*
+
+.vim/dein.vim/.netrwhist
+
+!.gitkeep

@@ -1,0 +1,127 @@
+# dein
+[[plugins]]
+repo = 'Shougo/dein.vim'
+
+# pomodoro
+[[plugins]]
+repo = '0Delta/vimodoro'
+
+# vimdoc-ja
+[[plugins]]
+repo = 'vim-jp/vimdoc-ja'
+
+# NERDTree
+[[plugins]]
+repo = 'scrooloose/nerdtree'
+hook_add = '''
+    nnoremap <C-t> :NERDTreeToggle<CR>
+    let NERDTreeIgnore = ['\.pyc$','\.swp$','\.meta$']
+'''
+
+# clever-f
+[[plugins]]
+repo = 'rhysd/clever-f.vim'
+
+# easymotion
+[[plugins]]
+repo = 'Lokaltog/vim-easymotion'
+hook_add = '''
+    let g:EasyMotion_do_mapping = 0 "Disable default mappings
+    nmap F <Plug>(easymotion-s2)
+'''
+
+# Vimペインのサイズ連続切り替えを可能にする
+[[plugins]]
+repo = 'kana/vim-submode'
+hook_add = '''
+    call submode#enter_with('bufmove', 'n', '', 'sL', '<C-w>>')
+    call submode#enter_with('bufmove', 'n', '', 'sH', '<C-w><')
+    call submode#enter_with('bufmove', 'n', '', 'sJ', '<C-w>+')
+    call submode#enter_with('bufmove', 'n', '', 'sK', '<C-w>-')
+    call submode#map('bufmove', 'n', '', 'L', '<C-w>>')
+    call submode#map('bufmove', 'n', '', 'H', '<C-w><')
+    call submode#map('bufmove', 'n', '', 'J', '<C-w>+')
+    call submode#map('bufmove', 'n', '', 'K', '<C-w>-')
+'''
+
+# ???
+[[plugins]]
+repo = 'Shougo/neco-vim'
+[[plugins]]
+repo = 'Shougo/neco-syntax'
+
+# Migemo
+[[plugins]]
+repo = 'Shougo/vimproc.vim'
+hook_post_update = '''
+  if !has('nvim')
+    call dein#add('roxma/nvim-yarp')
+    call dein#add('roxma/vim-hug-neovim-rpc')
+  endif
+
+  if dein#util#_is_windows()
+    let cmd = 'tools\\update-dll-mingw'
+  elseif dein#util#_is_cygwin()
+    let cmd = 'make -f make_cygwin.mak'
+  elseif executable('gmake')
+    let cmd = 'gmake'
+  else
+    let cmd = 'make'
+  endif
+  let g:dein#plugin.build = cmd
+'''
+
+[[plugins]]
+repo = 'haya14busa/incsearch.vim'
+[[plugins]]
+repo = 'haya14busa/incsearch-fuzzy.vim'
+
+[[plugins]]
+repo = 'haya14busa/incsearch-migemo.vim'
+[[plugins]]
+repo = 'haya14busa/vim-migemo'
+hook_add = '''
+    let alphabets = ["a","b","c","d","e","f","g","h","i","j","k","l","m","n","o","p","q","r","s","t","u","v","w","x","y","z"]
+    for k in alphabets
+        execute "map /".k." <Plug>(incsearch-migemo-/)".k
+        execute "map ?".k." <Plug>(incsearch-migemo-?)".k
+        execute "map g/".k." <Plug>(incsearch-migemo-stay)".k
+    endfor
+    let alphabetsu = ["A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z"]
+    for k in alphabetsu
+        execute "map /".k." <Plug>(incsearch-forward)".k
+        execute "map ?".k." <Plug>(incsearch-backward)".k
+        execute "map g/".k." <Plug>(incsearch-stay)".k
+    endfor
+    map / <Nop>
+    map ? <Nop>
+    map g/ <Nop>
+    set ignorecase
+'''
+
+# LSP - 補完サーバ
+[[plugins]]
+repo = 'prabirshrestha/vim-lsp'
+
+# decomplete - 補完
+[[plugins]]
+repo = 'Shougo/deoplete.nvim'
+hook_add='''
+    if !has('nvim')
+    call dein#add('roxma/nvim-yarp')
+    call dein#add('roxma/vim-hug-neovim-rpc')
+    endif
+    let g:deoplete#enable_at_startup = 1
+'''
+
+# foldCC - foldの見た目変更
+[[plugins]]
+repo = 'LeafCage/foldCC.vim'
+hook_add = '''
+    set foldtext=FoldCCtext()
+"    let g:foldCCtext_head = ''
+"    let g:foldCCtext_tail = 'v:foldend-v:foldstart+1'
+    let g:foldCCtext_head = '""'
+    let g:foldCCtext_tail = '"-[" . printf("%5d",(v:foldend-v:foldstart+1)) . " lines   Lv." . v:foldlevel . "]- "'
+'''
+

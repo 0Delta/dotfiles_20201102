@@ -1,0 +1,135 @@
+# SonicTemplate
+[[plugins]]
+on_ft = ['go','c','c++','cpp','java','javascript','python','ruby','typescript','review']
+repo = 'mattn/sonictemplate-vim'
+hook_source = '''
+    let g:sonictemplate_postfix_key='<c-b>'
+'''
+
+# Re:View
+[[plugins]]
+repo = 'tokorom/vim-review'
+on_ft = ['review']
+hook_add = '''
+    function! FoldReVIEW(lnum)
+      let line = getline(a:lnum)
+      let next = getline(a:lnum + 1)
+      if line =~ '^=\{1} [^=]\+'
+        return 1
+      elseif next =~ '^=\{1} [^=]\+'
+        return '<1'
+      elseif line =~ '^=\{2} [^=]\+'
+        return 2
+      elseif next =~ '^=\{2} [^=]\+'
+        return '<2'
+      elseif line =~ '^=\{3} [^=]\+'
+        return 3
+      elseif next =~ '^=\{3} [^=]\+'
+        return '<3'
+      elseif line =~ '^=\{4} [^=]\+'
+        return 4
+      elseif next =~ '^=\{4} [^=]\+'
+        return '<4'
+      elseif line =~ '^=\+\[\w\+\] [^=]\+'
+        return 'a1'
+      elseif line =~ '^=\+\[/\w\+\]'
+        return 's1'
+      endif
+      return '='
+    endfunction
+    setl foldmethod=expr foldexpr=FoldReVIEW(v:lnum)
+'''
+
+# Golang
+[[plugins]]
+repo = 'Shougo/vimshell.vim'
+
+[[plugins]]
+repo = 'Shougo/vimproc.vim'
+
+[[plugins]]
+repo = 'sebdah/vim-delve'
+
+[[plugins]]
+repo = 'fatih/vim-go'
+on_ft = ['go','golang']
+hook_add = '''
+    let g:go_highlight_functions = 1
+    let g:go_highlight_methods = 1
+    let g:go_highlight_fields = 1
+    let g:go_highlight_types = 1
+    let g:go_highlight_operators = 1
+    let g:go_highlight_build_constraints = 1
+
+    let g:go_fmt_command = 'goimports'
+    let g:go_metalinter_command = "golangci-lint"
+    let g:go_metalinter_enabled = ['vet', 'golint', 'errcheck', 'deadcode', 'structcheck', 'dupl', 'interfacer', 'goconst']
+    let g:go_metalinter_autosave_enabled = ['vet', 'golint', 'errcheck', 'deadcode', 'structcheck', 'dupl', 'interfacer', 'goconst']
+    let g:go_metalinter_autosave = 1
+    let g:go_metalinter_deadline = '60s'
+
+    filetype off
+    filetype plugin indent off
+    set runtimepath+=/usr/local/go/misc/vim
+    au FileType go setlocal sw=4 ts=4 sts=4 noet
+    au FileType go setlocal makeprg=go\ build\ ./... errorformat=%f:%l:\ %m
+    au FileType go nmap <F12>  <Plug>(go-build)
+    au FileType go nmap <F5>  <Plug>(go-run)
+    filetype plugin indent on
+    syntax on
+    let g:go_doc_keywordprg_enabled = 0
+    setl foldmethod=syntax
+'''
+
+# markdown
+[[plugin]]
+repo = 'godlygeek/tabular'
+on_ft = ['md','markdown']
+[[plugin]]
+repo = 'plasticboy/vim-markdown'
+on_ft = ['md','markdown']
+
+# Vue
+[[plugins]]
+repo = 'posva/vim-vue'
+on_ft = ['vue']
+hook_add = '''
+	au FileType vue syntax sync fromstart
+	let g:ft = ''
+	function! NERDCommenter_before()
+	  if &ft == 'vue'
+		let g:ft = 'vue'
+		let stack = synstack(line('.'), col('.'))
+		if len(stack) > 0
+		  let syn = synIDattr((stack)[0], 'name')
+		  if len(syn) > 0
+			exe 'setf ' . substitute(tolower(syn), '^vue_', '', '')
+		  endif
+		endif
+	  endif
+	endfunction
+	function! NERDCommenter_after()
+	  if g:ft == 'vue'
+		setf vue
+		let g:ft = ''
+	  endif
+	endfunction
+'''
+
+# folddigest - 折りたたみリスト機能
+[[plugins]]
+repo = 'vim-scripts/folddigest.vim'
+hook_add='''
+    let g:folddigest_options ="vertical,flexnumwidth"
+    " map zw :call FoldDigest()
+'''
+
+
+[[plugins]]
+on_ft=['tf','terraform']
+repo = 'hashivim/vim-terraform'
+hook_add='''
+    let g:terraform_fmt_on_save = 1
+'''
+
+
