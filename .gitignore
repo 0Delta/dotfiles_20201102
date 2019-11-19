@@ -6,4 +6,6 @@ bin/vim/*
 config_fish/fishd*
 config_fish/fish_variables
 
+.skk-dic/user
+
 !.gitkeep
