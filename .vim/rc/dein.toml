@@ -125,3 +125,12 @@ hook_add = '''
     let g:foldCCtext_tail = '"-[" . printf("%5d",(v:foldend-v:foldstart+1)) . " lines   Lv." . v:foldlevel . "]- "'
 '''
 
+# skk
+[[plugins]]
+repo = 'tyru/eskk.vim'
+hook_add = '''
+    set imdisable
+    let g:eskk#directory = "~/.eskk"
+    let g:eskk#dictionary = { 'path': "~/.skk-dic/user", 'sorted': 0, 'encoding': 'utf-8', }
+    let g:eskk#large_dictionary = { 'path': "~/.skk-dic/SKK-JISYO.L", 'sorted': 1, 'encoding': 'euc-jp', }
+'''

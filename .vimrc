@@ -101,7 +101,7 @@ vnoremap <S-Tab> <<
 " BS無効化(C-hで可能)
 inoremap <BS>  <Nop>
 " typo抑制
-inoremap <C-J>  <Nop>
+" inoremap <C-J>  <Nop>
 inoremap <C-k>  <Nop>
 inoremap <C-l>  <Nop>
 
