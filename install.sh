@@ -6,12 +6,14 @@ DOTFILES_DIR=$(pwd)
 
 links=(
     ".bash_profile ~/"
-    ".bash_rc ~/"
+    ".bashrc ~/"
     ".vimrc ~/"
     ".vim ~/"
 
     "config_fish ~/.config/fish"
     "config_fisher ~/.config/fisher"
+
+    ".skk-dic ~/"
 )
 
 for link in "${links[@]}"; do
