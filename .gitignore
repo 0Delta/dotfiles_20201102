@@ -3,4 +3,6 @@ bin/vim/*
 
 .vim/dein.vim/.netrwhist
 
+config_fish/fishd*
+
 !.gitkeep
