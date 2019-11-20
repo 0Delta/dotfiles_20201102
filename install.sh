@@ -9,6 +9,7 @@ links=(
     ".bashrc ~/"
     ".vimrc ~/"
     ".vim ~/"
+    ".tmux.conf ~/"
 
     "config_fish ~/.config/fish"
     "config_fisher ~/.config/fisher"
