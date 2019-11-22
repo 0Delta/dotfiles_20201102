@@ -59,6 +59,12 @@ function! s:switchFoldMax() abort
 endfunc
 nnoremap zz :<C-u>call <SID>switchFoldMax()<CR>
 
+" Save fold settings.
+autocmd BufWritePost * if expand('%') != '' && &buftype !~ 'nofile' | mkview | endif
+autocmd BufRead * if expand('%') != '' && &buftype !~ 'nofile' | silent loadview | endif
+" Don't save options.
+set viewoptions-=options
+
 augroup fo
   au FileType vim setlocal foldmethod=marker
   au FileType toml setlocal foldmethod=marker
