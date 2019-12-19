@@ -2,7 +2,7 @@ bin/vim/*
 .vim/view
 .vim/plugins/*
 
-.vim/dein.vim/.netrwhist
+.vim/dein.vim
 
 config_fish/fishd*
 config_fish/fish_variables
