@@ -1,4 +1,5 @@
 bin/vim/*
+.vim/view
 .vim/plugins/*
 
 .vim/dein.vim/.netrwhist

@@ -2,6 +2,25 @@
 [[plugins]]
 repo = 'Shougo/dein.vim'
 
+# dein
+[[plugins]]
+repo = 'rhysd/try-colorscheme.vim'
+
+# clipbord
+[[plugins]]
+repo = 'kana/vim-fakeclip'
+hook_add = '''
+    let g:fakeclip_terminal_multiplexer_type = 'tmux'
+'''
+ 
+# surround
+[[plugins]]
+repo = 'tpope/vim-surround'
+
+# jautil
+[[plugins]]
+repo = 'thinca/vim-jautil'
+
 # pomodoro
 [[plugins]]
 repo = '0Delta/vimodoro'
@@ -81,22 +100,22 @@ repo = 'haya14busa/incsearch-migemo.vim'
 [[plugins]]
 repo = 'haya14busa/vim-migemo'
 hook_add = '''
-    let alphabets = ["a","b","c","d","e","f","g","h","i","j","k","l","m","n","o","p","q","r","s","t","u","v","w","x","y","z"]
-    for k in alphabets
-        execute "map /".k." <Plug>(incsearch-migemo-/)".k
-        execute "map ?".k." <Plug>(incsearch-migemo-?)".k
-        execute "map g/".k." <Plug>(incsearch-migemo-stay)".k
-    endfor
-    let alphabetsu = ["A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z"]
-    for k in alphabetsu
-        execute "map /".k." <Plug>(incsearch-forward)".k
-        execute "map ?".k." <Plug>(incsearch-backward)".k
-        execute "map g/".k." <Plug>(incsearch-stay)".k
-    endfor
-    map / <Nop>
-    map ? <Nop>
-    map g/ <Nop>
-    set ignorecase
+"    let alphabets = ["a","b","c","d","e","f","g","h","i","j","k","l","m","n","o","p","q","r","s","t","u","v","w","x","y","z"]
+"    for k in alphabets
+"        execute "map /".k." <Plug>(incsearch-migemo-/)".k
+"        execute "map ?".k." <Plug>(incsearch-migemo-?)".k
+"        execute "map g/".k." <Plug>(incsearch-migemo-stay)".k
+"    endfor
+"    let alphabetsu = ["A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z"]
+"    for k in alphabetsu
+"        execute "map /".k." <Plug>(incsearch-forward)".k
+"        execute "map ?".k." <Plug>(incsearch-backward)".k
+"        execute "map g/".k." <Plug>(incsearch-stay)".k
+"    endfor
+"    map / <Nop>
+"    map ? <Nop>
+"    map g/ <Nop>
+"    set ignorecase
 '''
 
 # LSP - 補完サーバ
@@ -132,5 +151,21 @@ hook_add = '''
     set imdisable
     let g:eskk#directory = "~/.eskk"
     let g:eskk#dictionary = { 'path': "~/.skk-dic/user", 'sorted': 0, 'encoding': 'utf-8', }
+    "" let g:eskk#dictionary = { 'path': "~/.skk-dic/userdict.txt", 'sorted': 0, 'encoding': 'utf-16le', }
     let g:eskk#large_dictionary = { 'path': "~/.skk-dic/SKK-JISYO.L", 'sorted': 1, 'encoding': 'euc-jp', }
+    let g:eskk#show_candidates_count = 1
+
+	augroup eskk
+	  autocmd!
+	  autocmd eskk VimEnter * imap <C-j> <Plug>(eskk:toggle)
+	  autocmd eskk VimEnter * cmap <C-j> <Plug>(eskk:toggle)
+	augroup END
 '''
+
+# vimdoc-jp
+[[plugins]]
+repo = 'vim-jp/autofmt'
+hook_add = '''
+    :set formatexpr=autofmt#japanese#formatexpr()
+'''
+

@@ -1,50 +1,6 @@
 set encoding=utf-8
 scriptencoding utf-8
 
-" dein{{{
-" dein初期設定{{{
-" プラグインが実際にインストールされるディレクトリ
-let s:dein_dir = expand('~/.vim/plugins')
-" dein.vim 本体
-let s:dein_repo_dir = expand('~/.vim/dein.vim')
-
-" dein.vim がなければ github から落としてくる
-if &runtimepath !~# '/dein.vim'
-  if !isdirectory(s:dein_repo_dir)
-    execute '!git clone https://github.com/Shougo/dein.vim' s:dein_repo_dir
-  endif
-  execute 'set runtimepath^=' . fnamemodify(s:dein_repo_dir, ':p')
-endif
-"}}}
-" dein-add{{{
-if dein#load_state(s:dein_dir)
-  call dein#begin(s:dein_dir)
-
-  " プラグインリストを収めた TOML ファイル
-  " 予め TOML ファイル（後述）を用意しておく
-  let g:rc_dir    = expand('~/.vim/rc')
-  let s:toml      = g:rc_dir . '/dein.toml'
-  let s:lazy_toml = g:rc_dir . '/dein_lazy.toml'
-"  let s:go = g:rc_dir . '/go.toml'
-
-  " TOML を読み込み、キャッシュしておく
-  call dein#load_toml(s:toml,      {'lazy': 0})
-  call dein#load_toml(s:lazy_toml, {'lazy': 1})
-"  call dein#load_toml(s:go, {'lazy': 1})
-
-  " 設定終了
-  call dein#end()
-  call dein#save_state()
-endif
-"}}}
-" dein後処理{{{
-" もし、未インストールものものがあったらインストール
-if dein#check_install()
-  call dein#install()
-endif
-"}}}
-"}}}
-
 " 折りたたみ機能を追加{{{
 function! s:switchFoldMax() abort
   if exists('&foldnestmax')
@@ -77,7 +33,7 @@ augroup fo
   au FileType review setlocal foldmethod=expr
 augroup END
 "}}}
-"keymap(vim){{{
+" keymap(vim){{{
 " 上下移動は位置を保持するように
 noremap j gj
 noremap k gk
@@ -107,7 +63,6 @@ vnoremap <S-Tab> <<
 " BS無効化(C-hで可能)
 inoremap <BS>  <Nop>
 " typo抑制
-" inoremap <C-J>  <Nop>
 inoremap <C-k>  <Nop>
 inoremap <C-l>  <Nop>
 
@@ -115,8 +70,9 @@ inoremap <C-l>  <Nop>
 nnoremap ZZ <Nop>
 nnoremap ZQ <Nop>
 
-" jj でInsertモードを解除できるように
+" jj か lll でInsertモードを解除できるように
 inoremap <silent> jj <ESC>
+inoremap <silent> llll <ESC>
 
 " フォーマット + exMode無効化
 nnoremap Q gq
@@ -251,6 +207,9 @@ set autoindent
 " 改行時に入力された行の末尾に合わせて次の行のインデントを増減する
 set smartindent
 
+" skkが動作しなくなるのでペースト無効化
+set nopaste
+
 " カレントディレクトリのvimrcを読み込む
 if (!exists('s:dir'))
   let s:dir = getcwd()
@@ -367,5 +326,68 @@ augroup QfAutoCommands
 augroup END
 "}}}
 
+" コピー設定{{{
+" set clipboard=unnamedplus,autoselect
+" if system('uname -a | grep microsoft') != ""
+"   let g:clipboard = {
+"         \   'name': 'myClipboard',
+"         \   'copy': {
+"         \      '+': 'win32yank.exe -i',
+"         \      '*': 'win32yank.exe -i',
+"         \    },
+"         \   'paste': {
+"         \      '+': 'win32yank.exe -o',
+"         \      '*': 'win32yank.exe -o',
+"         \   },
+"         \   'cache_enabled': 1,
+"         \ }
+" endif
+"}}}
+
+" dein{{{
+" dein初期設定{{{
+" プラグインが実際にインストールされるディレクトリ
+let s:dein_dir = expand('~/.vim/plugins')
+" dein.vim 本体
+let s:dein_repo_dir = expand('~/.vim/dein.vim')
+
+" dein.vim がなければ github から落としてくる
+if &runtimepath !~# '/dein.vim'
+  if !isdirectory(s:dein_repo_dir)
+    execute '!git clone https://github.com/Shougo/dein.vim' s:dein_repo_dir
+  endif
+  execute 'set runtimepath^=' . fnamemodify(s:dein_repo_dir, ':p')
+endif
+"}}}
+" dein-add{{{
+if dein#load_state(s:dein_dir)
+  call dein#begin(s:dein_dir)
+
+  " プラグインリストを収めた TOML ファイル
+  " 予め TOML ファイル（後述）を用意しておく
+  let g:rc_dir    = expand('~/.vim/rc')
+  let s:toml      = g:rc_dir . '/dein.toml'
+  let s:lazy_toml = g:rc_dir . '/dein_lazy.toml'
+"  let s:go = g:rc_dir . '/go.toml'
+
+  " TOML を読み込み、キャッシュしておく
+  call dein#load_toml(s:toml,      {'lazy': 0})
+  call dein#load_toml(s:lazy_toml, {'lazy': 1})
+"  call dein#load_toml(s:go, {'lazy': 1})
+
+  " 設定終了
+  call dein#end()
+  call dein#save_state()
+endif
+"}}}
+" dein後処理{{{
+" もし、未インストールものものがあったらインストール
+if dein#check_install()
+  call dein#install()
+endif
+"}}}
+"}}}
+
 set rtp+=~/.vim/tabnine-vim
+
 

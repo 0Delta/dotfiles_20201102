@@ -1,3 +1,6 @@
+# load bashrc
+bass source ~/.bash_profile
+
 # Ctrl-R peco history search
 function fish_user_key_bindings
   bind \cr 'peco_select_history (commandline -b)'
@@ -43,6 +46,7 @@ set -x GO111MODULE on
 # set -x PATH (echo $PATH | tr ' ' '\n' | sort -u | paste -d: -s -)
 
 ### alias
+alias lsync-stat "sudo service lsyncd status;cat /tmp/lsyncd.status | grep -E '^Sync' -A1"
 alias starwars "telnet towel.blinkenlights.nl"
 alias tailf "tail -f"
 alias cls "clear"
@@ -52,37 +56,12 @@ alias cls "clear"
 # eval (hub alias -s)
 # alias less "~/bin/vim/share/vim/vim81/macros/less.sh"
 # alias more "~/bin/vim/share/vim/vim81/macros/less.sh"
+alias gcloud-chcnf='gcloud config configurations activate (gcloud config configurations list | tail -n +2 | peco | cut -d " " -f 1)'
+alias gcloud-shell='gcloud alpha interactive'
+alias winexp='explorer.exe (wslpath -a -w $PWD)'
+
 
 ### fontcode
 # set -x LANG ja_JP.UTF-8
 # set -x LC_TYPE ja_JP.UTF-8
-
-#     set -g theme_display_git no
-#     set -g theme_display_git_dirty no
-#     set -g theme_display_git_untracked no
-#     set -g theme_display_git_ahead_verbose yes
-#     set -g theme_display_git_dirty_verbose yes
-#     set -g theme_display_git_stashed_verbose yes
-#     set -g theme_display_git_master_branch yes
-#     set -g theme_git_worktree_support yes
-#     set -g theme_display_vagrant yes
-#     set -g theme_display_docker_machine no
-#     set -g theme_display_k8s_context yes
-#     set -g theme_display_hg yes
-#     set -g theme_display_virtualenv no
-#     set -g theme_display_ruby no
-#     set -g theme_display_user ssh
-#     set -g theme_display_hostname ssh
-#     set -g theme_display_vi no
-#     set -g theme_avoid_ambiguous_glyphs yes
-#     set -g theme_powerline_fonts no
-#     set -g theme_nerd_fonts yes
-#     set -g theme_show_exit_status yes
-#     set -g default_user your_normal_user
-#     set -g theme_color_scheme dark
-#     set -g fish_prompt_pwd_dir_length 0
-#     set -g theme_project_dir_length 1
-#     set -g theme_newline_cursor yes
-
-
 

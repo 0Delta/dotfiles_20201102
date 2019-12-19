@@ -40,6 +40,13 @@ hook_add = '''
     setl foldmethod=expr foldexpr=FoldReVIEW(v:lnum)
 '''
 
+[[plugins]]
+repo = 'dense-analysis/ale'
+on_ft = ['review']
+hook_add = '''
+	let g:ale_fixers = { 'review': ['redpen'] }
+''' 
+
 # Golang
 [[plugins]]
 repo = 'Shougo/vimshell.vim'
@@ -122,16 +129,34 @@ hook_add = '''
 [[plugins]]
 repo = 'vim-scripts/folddigest.vim'
 hook_add='''
+    source ~/.vim/plugins/repos/github.com/vim-scripts/folddigest.vim/plugin/folddigest.vim
     let g:folddigest_options ="vertical,flexnumwidth"
-    " map zw :call FoldDigest()
+    map zw :call FoldDigest()<CR>
 '''
-
 
 [[plugins]]
 on_ft=['tf','terraform']
 repo = 'hashivim/vim-terraform'
 hook_add='''
     let g:terraform_fmt_on_save = 1
+'''
+
+[[plugins]]
+on_ft=['py','python']
+repo = 'vim-syntastic/syntastic'
+hook_add='''
+    let g:syntastic_python_checkers = ['flake8']
+'''
+
+# python linter
+[[plugins]]
+repo = 'lambacck/preserve-vim'
+
+[[plugins]]
+on_ft=['py','python']
+repo = 'tell-k/vim-autopep8'
+hook_add='''
+	let g:autopep8_ignore="E501"
 '''
 
 

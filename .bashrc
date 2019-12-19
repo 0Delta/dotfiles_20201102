@@ -116,13 +116,33 @@ if ! shopt -oq posix; then
   fi
 fi
 
+# Google Cloud SDK
+export GOOGLE_APPLICATION_CREDENTIALS=$HOME/gcpkey-c1e781856f52.json
+alias gcloud-chcnf='gcloud config configurations activate $(gcloud config configurations list | tail -n +2 | peco | cut -d " " -f 1)'
+alias gcloud-shell='gcloud alpha interactive'
+
+# Golang
+export PATH=$PATH:/usr/local/go/bin
+export PATH=$PATH:$HOME/go/bin
+
+# python packages
+export PATH=$PATH:$HOME/.local/bin
+
+# redpen
+export PATH=$PATH:/usr/local/redpen/bin
+
+# exec fish
+
+# WSL
+alias winexp='explorer.exe $(wslpath -a -w $PWD)'
+
+# backup
+if [ -f /usr/bin/lsyncd ]; then
+    /usr/bin/lsyncd /etc/lsyncd/lsyncd.conf.lua 
+fi
+
 # The next line updates PATH for the Google Cloud SDK.
 if [ -f '/home/zdelta/google-cloud-sdk/path.bash.inc' ]; then . '/home/zdelta/google-cloud-sdk/path.bash.inc'; fi
 
 # The next line enables shell command completion for gcloud.
 if [ -f '/home/zdelta/google-cloud-sdk/completion.bash.inc' ]; then . '/home/zdelta/google-cloud-sdk/completion.bash.inc'; fi
-
-# Golang
-export PATH=$PATH:/usr/local/go/bin
-
-# exec fish
