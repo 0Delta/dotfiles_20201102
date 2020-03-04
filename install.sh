@@ -15,6 +15,8 @@ links=(
     "config_fisher ~/.config/fisher"
 
     ".skk-dic ~/"
+
+    "kubectx ~/.kubectx"
 )
 
 for link in "${links[@]}"; do
@@ -36,3 +38,6 @@ for link in "${links[@]}"; do
     fi
 done
 
+mkdir -p ~/.config/fish/completions
+ln -s ~/.kubectx/completion/kubectx.fish ~/.config/fish/completions/
+ln -s ~/.kubectx/completion/kubens.fish ~/.config/fish/completions/
