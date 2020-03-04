@@ -146,3 +146,6 @@ if [ -f '/home/zdelta/google-cloud-sdk/path.bash.inc' ]; then . '/home/zdelta/go
 
 # The next line enables shell command completion for gcloud.
 if [ -f '/home/zdelta/google-cloud-sdk/completion.bash.inc' ]; then . '/home/zdelta/google-cloud-sdk/completion.bash.inc'; fi
+
+# docker-compose or gcloud fix
+ export LD_LIBRARY_PATH=/usr/lib/

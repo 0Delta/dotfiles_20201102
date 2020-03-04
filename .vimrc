@@ -236,18 +236,20 @@ hi StatusLine   term=NONE cterm=NONE ctermfg=black ctermbg=white
 " カーソルラインの基礎色
 hi CursorLineNr gui=bold ctermbg=blue ctermfg=white
 " 見にくい色を修正
-hi Search term=reverse ctermbg=11 guibg=Yellow ctermfg=black
-hi Visual gui=reverse ctermbg=7 guibg=LightGray ctermfg=black
-hi SpellBad gui=reverse ctermbg=224 gui=undercurl guisp=Red ctermfg=black
-hi DiffChange term=bold ctermbg=225 guibg=LightMagenta ctermfg=black
-hi SpellRare term=reverse ctermbg=225 gui=undercurl guisp=Magenta ctermfg=black
-hi ColorColumn term=reverse ctermbg=224 guibg=LightRed ctermfg=black
+" hi Search term=reverse ctermbg=11 guibg=Yellow ctermfg=black
+" hi Visual gui=reverse ctermbg=7 guibg=LightGray ctermfg=black
+" hi SpellBad gui=reverse ctermbg=224 gui=undercurl guisp=Red ctermfg=black
+" hi DiffChange term=bold ctermbg=225 guibg=LightMagenta ctermfg=black
+" hi SpellRare term=reverse ctermbg=225 gui=undercurl guisp=Magenta ctermfg=black
+" hi ColorColumn term=reverse ctermbg=224 guibg=LightRed ctermfg=black
 
 " 各項目の色
 hi User1 gui=bold ctermbg=blue ctermfg=white        " Mode (後で上書きされる)
 hi User2 gui=bold ctermbg=yellow ctermfg=black      " Modefi
 hi User3 gui=bold ctermbg=darkred ctermfg=white     " ReadOnly
 hi User4 gui=bold ctermbg=magenta ctermfg=white     " GitBranch
+
+
 
 " Gitのブランチ取得用{{{
 function! StatuslineGitBranch()
@@ -306,7 +308,7 @@ function! StatuslineMode()
 endfunction
 "}}}
 
-" ステータスライン
+" ステータスライン{{{
 set statusline=
 set statusline+=%1*\[%{StatuslineMode()}] 
 set statusline+=%0*\ %f\ 
@@ -319,6 +321,21 @@ set statusline+=%0*\%=
 set statusline+=%{strlen(&fenc)?&fenc:'none'}\ \|\ 
 set statusline+=%l\/%L(%P)
 "}}}
+" 背景透過{{{
+augroup TransparentBG
+  autocmd!
+	autocmd Colorscheme * highlight Normal ctermbg=none
+	autocmd Colorscheme * highlight NonText ctermbg=none
+	" autocmd Colorscheme * highlight LineNr ctermbg=none
+	" autocmd Colorscheme * highlight Folded ctermbg=none
+	autocmd Colorscheme * highlight EndOfBuffer ctermbg=none 
+augroup END
+"}}}
+" 定期的に画面再描画{{{
+  autocmd CursorHold * redraw!
+"}}}
+"}}}
+
 " quickfix ウィンドウのみの場合に自動で閉じる{{{
 augroup QfAutoCommands
   autocmd!
@@ -327,21 +344,12 @@ augroup END
 "}}}
 
 " コピー設定{{{
-" set clipboard=unnamedplus,autoselect
-" if system('uname -a | grep microsoft') != ""
-"   let g:clipboard = {
-"         \   'name': 'myClipboard',
-"         \   'copy': {
-"         \      '+': 'win32yank.exe -i',
-"         \      '*': 'win32yank.exe -i',
-"         \    },
-"         \   'paste': {
-"         \      '+': 'win32yank.exe -o',
-"         \      '*': 'win32yank.exe -o',
-"         \   },
-"         \   'cache_enabled': 1,
-"         \ }
-" endif
+set clipboard=unnamedplus
+if executable("win32yank.exe")
+    vnoremap <silent>"*y :w !win32yank.exe -i<CR><CR>
+    nnoremap <silent>"*p :r !win32yank.exe -o<CR>
+    vnoremap <silent>"*p :r !win32yank.exe -o<CR>
+endif
 "}}}
 
 " dein{{{
@@ -387,7 +395,4 @@ if dein#check_install()
 endif
 "}}}
 "}}}
-
-set rtp+=~/.vim/tabnine-vim
-
 

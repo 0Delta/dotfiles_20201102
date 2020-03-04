@@ -2,15 +2,18 @@
 [[plugins]]
 repo = 'Shougo/dein.vim'
 
-# dein
+# time
+[[plugins]]
+repo = 'wakatime/vim-wakatime'
+
+# color
 [[plugins]]
 repo = 'rhysd/try-colorscheme.vim'
 
-# clipbord
 [[plugins]]
-repo = 'kana/vim-fakeclip'
+repo = "cocopon/iceberg.vim"
 hook_add = '''
-    let g:fakeclip_terminal_multiplexer_type = 'tmux'
+    colorscheme iceberg
 '''
  
 # surround
@@ -100,6 +103,10 @@ repo = 'haya14busa/incsearch-migemo.vim'
 [[plugins]]
 repo = 'haya14busa/vim-migemo'
 hook_add = '''
+map m/ <Plug>(incsearch-migemo-/)
+map m? <Plug>(incsearch-migemo-?)
+map mg/ <Plug>(incsearch-migemo-stay)
+
 "    let alphabets = ["a","b","c","d","e","f","g","h","i","j","k","l","m","n","o","p","q","r","s","t","u","v","w","x","y","z"]
 "    for k in alphabets
 "        execute "map /".k." <Plug>(incsearch-migemo-/)".k
@@ -120,7 +127,59 @@ hook_add = '''
 
 # LSP - 補完サーバ
 [[plugins]]
+repo = 'prabirshrestha/async.vim'
+ [[plugins]]
 repo = 'prabirshrestha/vim-lsp'
+ [[plugins]]
+repo = 'prabirshrestha/asyncomplete.vim'
+ [[plugins]]
+repo = 'prabirshrestha/asyncomplete-lsp.vim'
+hook_add='''
+    augroup MyLsp
+        autocmd!
+        let g:lsp_diagnostics_enabled = 0
+        " debug
+        let g:lsp_log_verbose = 1
+        let g:lsp_log_file = expand('~/vim-lsp.log')
+        let g:asyncomplete_log_file = expand('~/asyncomplete.log')
+
+        if executable('pyls')
+            au User lsp_setup call lsp#register_server({
+                \ 'name': 'pyls',
+                \ 'cmd': {server_info->['pyls']},
+                \ 'whitelist': ['python'],
+                \ })
+            au FileType python call s:configure_lsp()
+        endif
+
+        if executable('gopls')
+            autocmd User lsp_setup call lsp#register_server({
+                \ 'name': 'go-lang',
+                \ 'cmd': {server_info->['gopls']},
+                \ 'whitelist': ['go'],
+                \ })
+            au FileType go call s:configure_lsp()
+        endif
+
+        function! s:configure_lsp() abort
+            setlocal omnifunc=lsp#complete   " オムニ補完を有効化
+            " LSP用にマッピング
+            nnoremap <buffer> <C-]> :<C-u>LspDefinition<CR>
+            nnoremap <buffer> gd :<C-u>LspDefinition<CR>
+            nnoremap <buffer> gD :<C-u>LspReferences<CR>
+            nnoremap <buffer> gs :<C-u>LspDocumentSymbol<CR>
+            nnoremap <buffer> gS :<C-u>LspWorkspaceSymbol<CR>
+            nnoremap <buffer> gQ :<C-u>LspDocumentFormat<CR>
+            vnoremap <buffer> gQ :LspDocumentRangeFormat<CR>
+            " nnoremap <buffer> K :<C-u>LspHover<CR>
+            nnoremap <buffer> <F1> :<C-u>LspImplementation<CR>
+            nnoremap <buffer> <F2> :<C-u>LspRename<CR>
+
+            nnoremap <buffer> <C-j> :<C-u>LspNextError<CR>
+            nnoremap <buffer> <C-k> :<C-u>LspPreviousError<CR>
+        endfunction
+    augroup END
+'''
 
 # decomplete - 補完
 [[plugins]]
@@ -131,6 +190,21 @@ hook_add='''
     call dein#add('roxma/vim-hug-neovim-rpc')
   endif
   let g:deoplete#enable_at_startup = 1
+'''
+
+# tabnine
+[[plugins]]
+repo = 'tbodt/deoplete-tabnine'
+hook_post_update = '''
+  if has('win32') || has('win64')
+    let cmd = 'powershell.exe .\install.ps1''
+  else
+    let cmd = './install.sh'
+  endif
+  let g:dein#plugin.build = cmd
+'''
+hook_add = '''
+  set rtp+=~/.vim/plugins/repos/github.com/tbodt/deoplete-tabnine
 '''
 
 # foldCC - foldの見た目変更
@@ -154,6 +228,7 @@ hook_add = '''
     "" let g:eskk#dictionary = { 'path': "~/.skk-dic/userdict.txt", 'sorted': 0, 'encoding': 'utf-16le', }
     let g:eskk#large_dictionary = { 'path': "~/.skk-dic/SKK-JISYO.L", 'sorted': 1, 'encoding': 'euc-jp', }
     let g:eskk#show_candidates_count = 1
+    " set statusline+=\[%{eskk#get_mode()}\]
 
 	augroup eskk
 	  autocmd!
@@ -169,3 +244,6 @@ hook_add = '''
     :set formatexpr=autofmt#japanese#formatexpr()
 '''
 
+# game
+[[plugins]]
+repo = 'deris/vim-duzzle'

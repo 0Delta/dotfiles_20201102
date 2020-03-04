@@ -45,50 +45,61 @@ repo = 'dense-analysis/ale'
 on_ft = ['review']
 hook_add = '''
 	let g:ale_fixers = { 'review': ['redpen'] }
+    let g:ale_sign_column_always = 1
 ''' 
+
 
 # Golang
 [[plugins]]
-repo = 'Shougo/vimshell.vim'
-
-[[plugins]]
-repo = 'Shougo/vimproc.vim'
-
-[[plugins]]
-repo = 'sebdah/vim-delve'
-
-[[plugins]]
-repo = 'fatih/vim-go'
+repo = 'mattn/vim-goimports'
 on_ft = ['go','golang']
-hook_add = '''
-    let g:go_highlight_functions = 1
-    let g:go_highlight_methods = 1
-    let g:go_highlight_fields = 1
-    let g:go_highlight_types = 1
-    let g:go_highlight_operators = 1
-    let g:go_highlight_build_constraints = 1
 
-    let g:go_fmt_command = 'goimports'
-    let g:go_metalinter_command = "golangci-lint"
-    let g:go_metalinter_enabled = ['vet', 'golint', 'errcheck', 'deadcode', 'structcheck', 'dupl', 'interfacer', 'goconst']
-    let g:go_metalinter_autosave_enabled = ['vet', 'golint', 'errcheck', 'deadcode', 'structcheck', 'dupl', 'interfacer', 'goconst']
-    let g:go_metalinter_deadline = '60s'
+[[plugins]]
+repo = 'mattn/vim-lsp-settings'
+on_ft = ['go','golang']
 
-    let g:go_fmt_autosave = 0
-    au BufWritePre *.go silent GoFmt
+# [[plugins]]
+# repo = 'fatih/vim-go'
+# on_ft = ['go','golang']
+# server_commands = {
+# \  "go": {
+# \    "command": "gopls serve",
+# \    "log_level": -1,
+# \    "suppress_stderr": v:true,
+# \  },
+# \}
 
-    filetype off
-    filetype plugin indent off
-    set runtimepath+=/usr/local/go/misc/vim
-    au FileType go setlocal sw=4 ts=4 sts=4 noet
-    au FileType go setlocal makeprg=go\ build\ ./... errorformat=%f:%l:\ %m
-    au FileType go nmap <F12>  <Plug>(go-build)
-    au FileType go nmap <F5>  <Plug>(go-run)
-    filetype plugin indent on
-    syntax on
-    let g:go_doc_keywordprg_enabled = 0
-    setl foldmethod=syntax
-'''
+# [[plugins]]
+# repo = 'fatih/vim-go'
+# on_ft = ['go','golang']
+# hook_add = '''
+#     let g:go_highlight_functions = 1
+#     let g:go_highlight_methods = 1
+#     let g:go_highlight_fields = 1
+#     let g:go_highlight_types = 1
+#     let g:go_highlight_operators = 1
+#     let g:go_highlight_build_constraints = 1
+# 
+#     let g:go_fmt_command = 'goimports'
+#     let g:go_metalinter_command = "golangci-lint"
+#     let g:go_metalinter_enabled = ['vet', 'golint', 'errcheck', 'deadcode', 'structcheck', 'dupl', 'interfacer', 'goconst']
+#     let g:go_metalinter_autosave_enabled = ['vet', 'golint', 'errcheck', 'deadcode', 'structcheck', 'dupl', 'interfacer', 'goconst']
+#     let g:go_metalinter_deadline = '60s'
+# 
+#     let g:go_fmt_autosave = 1
+# 
+#     filetype off
+#     filetype plugin indent off
+#     set runtimepath+=/usr/local/go/misc/vim
+#     au FileType go setlocal sw=4 ts=4 sts=4 noet
+#     au FileType go setlocal makeprg=go\ build\ ./... errorformat=%f:%l:\ %m
+#     au FileType go nmap <F12>  <Plug>(go-build)
+#     au FileType go nmap <F5>  <Plug>(go-run)
+#     filetype plugin indent on
+#     syntax on
+#     let g:go_doc_keywordprg_enabled = 0
+#     setl foldmethod=syntax
+# '''
 
 # markdown
 [[plugin]]
@@ -159,4 +170,16 @@ hook_add='''
 	let g:autopep8_ignore="E501"
 '''
 
+# js linter
+[[plugins]]
+repo = 'maksimr/vim-jsbeautify'
+on_ft=['grads','javascript','json','html','css']
+hook_add = '''
+    if executable('js-beautify')
+      command! -range=% -nargs=* HTMLTidy <line1>,<line2>call RangeHtmlBeautify()
+      command! -range=% -nargs=* JSTidy <line1>,<line2>call RangeJsBeautify()
+      command! -range=% -nargs=* CSSTidy <line1>,<line2>call RangeCSSBeautify()
+      command! -range=% -nargs=* JSONTidy <line1>,<line2>call RangeJsonBeautify()
+    endif
+'''
 
