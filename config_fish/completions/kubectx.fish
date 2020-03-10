@@ -1,0 +1,1 @@
+/home/zdelta/.kubectx/completion/kubectx.fish

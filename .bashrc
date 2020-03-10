@@ -131,6 +131,9 @@ export PATH=$PATH:$HOME/.local/bin
 # redpen
 export PATH=$PATH:/usr/local/redpen/bin
 
+# kubectx
+export PATH=$PATH:$HOME/.kubectx
+
 # exec fish
 
 # WSL
