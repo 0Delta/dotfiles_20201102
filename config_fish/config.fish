@@ -65,6 +65,7 @@ alias winexp='explorer.exe (wslpath -a -w $PWD)'
 
 
 alias helm='docker run -e KUBECONFIG="/root/.kube/config:/root/.kube/some-other-context.yaml" -e XDG_CONFIG_HOME="/root/.config/" -e XDG_DATA_HOME="/root/.local/share" -ti --rm -v $PWD:/apps -v ~/.kube:/root/.kube -v ~/.helm:/root/.helm -v ~/.config/helm:/root/.config/helm -v ~/.local/share/helm:/root/.local/share/helm alpine/helm'
+alias terraform='docker run --rm -it -v $PWD:/app --workdir /app hashicorp/terraform:0.11.8'
 
 ### fontcode
 # set -x LANG ja_JP.UTF-8
