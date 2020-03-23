@@ -233,6 +233,7 @@ set laststatus=2
 
 " ステータスラインの基礎色
 hi StatusLine   term=NONE cterm=NONE ctermfg=black ctermbg=white
+hi StatusLineNC term=NONE cterm=NONE ctermbg=black ctermfg=gray ctermbg=white
 " カーソルラインの基礎色
 hi CursorLineNr gui=bold ctermbg=blue ctermfg=white
 " 見にくい色を修正
@@ -248,8 +249,7 @@ hi User1 gui=bold ctermbg=blue ctermfg=white        " Mode (後で上書きさ�
 hi User2 gui=bold ctermbg=yellow ctermfg=black      " Modefi
 hi User3 gui=bold ctermbg=darkred ctermfg=white     " ReadOnly
 hi User4 gui=bold ctermbg=magenta ctermfg=white     " GitBranch
-
-
+hi User5 gui=bold ctermbg=gray ctermfg=white        " Mode (後で上書きされる)
 
 " Gitのブランチ取得用{{{
 function! StatuslineGitBranch()
@@ -268,41 +268,53 @@ augroup GetGitBranch
   autocmd VimEnter,WinEnter,BufEnter * call StatuslineGitBranch()
 augroup END
 "}}}
+
 " ステータスラインの変化用{{{
+function! StatuslineModeDi()
+  if win_getid()!=g:actual_curwin
+    return "-DEACTIVE-"
+  else
+    return ""
+  endif
+  redraw
+endfunction
+
 function! StatuslineMode()
   let l:mode=mode()
-  if l:mode==#"n"
+  if win_getid()!=g:actual_curwin
+    return ""
+  elseif l:mode==#"n"
     hi User1 gui=bold ctermbg=blue ctermfg=white
     hi CursorLineNr gui=bold ctermbg=blue ctermfg=white
-    return "NORMAL"
+    return "[NORMAL]"
   elseif l:mode==?"v"
     hi User1 gui=bold ctermbg=green ctermfg=white
     hi CursorLineNr gui=bold ctermbg=green ctermfg=white
-    return "VISUAL"
+    return "[VISUAL]"
   elseif l:mode==#"i"
     hi User1 gui=bold ctermbg=red ctermfg=white
     hi CursorLineNr gui=bold ctermbg=red ctermfg=white
-    return "INSERT"
+    return "[INSERT]"
   elseif l:mode==#"R"
     hi User1 gui=bold ctermbg=darkred ctermfg=black
     hi CursorLineNr gui=bold ctermbg=darkred ctermfg=black
-    return "REPLACE"
+    return "[REPLACE]"
   elseif l:mode==?"s"
     hi User1 gui=bold ctermbg=blue ctermfg=white
     hi CursorLineNr gui=bold ctermbg=blue ctermfg=white
-    return "SELECT"
+    return "[SELECT]"
   elseif l:mode==#"t"
     hi User1 gui=bold ctermbg=lightgreen ctermfg=black
     hi CursorLineNr gui=bold ctermbg=lightgreen ctermfg=black
-    return "TERMINAL"
+    return "[TERMINAL]"
   elseif l:mode==#"c"
     hi User1 gui=bold ctermbg=yellow ctermfg=black
     hi CursorLineNr gui=bold ctermbg=lightgreen ctermfg=black
-    return "COMMAND"
+    return "[COMMAND]"
   elseif l:mode==#"!"
     hi User1 gui=bold ctermbg=yellow ctermfg=black
     hi CursorLineNr gui=bold ctermbg=lightgreen ctermfg=black
-    return "SHELL"
+    return "[SHELL]"
   endif
   redraw
 endfunction
@@ -310,7 +322,8 @@ endfunction
 
 " ステータスライン{{{
 set statusline=
-set statusline+=%1*\[%{StatuslineMode()}] 
+set statusline+=%5*\%{StatuslineModeDi()}
+set statusline+=%1*\%{StatuslineMode()}
 set statusline+=%0*\ %f\ 
 set statusline+=%2*\%m
 set statusline+=%3*\%r
@@ -321,6 +334,7 @@ set statusline+=%0*\%=
 set statusline+=%{strlen(&fenc)?&fenc:'none'}\ \|\ 
 set statusline+=%l\/%L(%P)
 "}}}
+
 " 背景透過{{{
 augroup TransparentBG
   autocmd!
@@ -331,6 +345,7 @@ augroup TransparentBG
 	autocmd Colorscheme * highlight EndOfBuffer ctermbg=none 
 augroup END
 "}}}
+
 " 定期的に画面再描画{{{
   autocmd CursorHold * redraw!
 "}}}
