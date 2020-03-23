@@ -41,15 +41,20 @@ hook_add = '''
 '''
 
 # clever-f
-[[plugins]]
-repo = 'rhysd/clever-f.vim'
+# [[plugins]]
+# repo = 'rhysd/clever-f.vim'
 
 # easymotion
 [[plugins]]
 repo = 'Lokaltog/vim-easymotion'
 hook_add = '''
     let g:EasyMotion_do_mapping = 0 "Disable default mappings
-    nmap F <Plug>(easymotion-s2)
+    map f <Plug>(easymotion-fl)
+    map t <Plug>(easymotion-tl)
+    map F <Plug>(easymotion-s2)
+    map T <Plug>(easymotion-Tl)
+    " noremap f <Plug>(easymotion-s2)
+    " noremap F <Plug>(easymotion-s2)
 '''
 
 # Vimペインのサイズ連続切り替えを可能にする
