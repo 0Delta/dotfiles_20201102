@@ -54,10 +54,6 @@ hook_add = '''
 repo = 'mattn/vim-goimports'
 on_ft = ['go','golang']
 
-[[plugins]]
-repo = 'mattn/vim-lsp-settings'
-on_ft = ['go','golang']
-
 # [[plugins]]
 # repo = 'fatih/vim-go'
 # on_ft = ['go','golang']

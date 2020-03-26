@@ -130,61 +130,100 @@ map mg/ <Plug>(incsearch-migemo-stay)
 "    set ignorecase
 '''
 
+
+
 # LSP - 補完サーバ
 [[plugins]]
 repo = 'prabirshrestha/async.vim'
  [[plugins]]
-repo = 'prabirshrestha/vim-lsp'
- [[plugins]]
 repo = 'prabirshrestha/asyncomplete.vim'
  [[plugins]]
 repo = 'prabirshrestha/asyncomplete-lsp.vim'
-hook_add='''
-    augroup MyLsp
-        autocmd!
-        let g:lsp_diagnostics_enabled = 1
-        " debug
-        let g:lsp_log_verbose = 1
-        let g:lsp_log_file = expand('~/vim-lsp.log')
-        let g:asyncomplete_log_file = expand('~/asyncomplete.log')
+ [[plugins]]
+repo = 'prabirshrestha/vim-lsp'
+# hook_add='''
+#     augroup MyLsp
+#         autocmd!
+#         let g:lsp_diagnostics_enabled = 1
+#         " debug
+#         let g:lsp_log_verbose = 1
+#         let g:lsp_log_file = expand('~/vim-lsp.log')
+#         let g:asyncomplete_log_file = expand('~/asyncomplete.log')
+# 
+#         if executable('pyls')
+#             au User lsp_setup call lsp#register_server({
+#                 \ 'name': 'pyls',
+#                 \ 'cmd': {server_info->['pyls']},
+#                 \ 'whitelist': ['python'],
+#                 \ })
+#             au FileType python call s:configure_lsp()
+#         endif
+# 
+#         if executable('gopls')
+#             autocmd User lsp_setup call lsp#register_server({
+#                 \ 'name': 'go-lang',
+#                 \ 'cmd': {server_info->['gopls']},
+#                 \ 'whitelist': ['go'],
+#                 \ })
+#             au FileType go call s:configure_lsp()
+#         endif
+# 
+#         function! s:configure_lsp() abort
+#             setlocal omnifunc=lsp#complete   " オムニ補完を有効化
+#             " LSP用にマッピング
+#             nnoremap <buffer> <C-]> :<C-u>LspDefinition<CR>
+#             nnoremap <buffer> gd :<C-u>LspDefinition<CR>
+#             nnoremap <buffer> gD :<C-u>LspReferences<CR>
+#             nnoremap <buffer> gs :<C-u>LspDocumentSymbol<CR>
+#             nnoremap <buffer> gS :<C-u>LspWorkspaceSymbol<CR>
+#             nnoremap <buffer> gQ :<C-u>LspDocumentFormat<CR>
+#             vnoremap <buffer> gQ :LspDocumentRangeFormat<CR>
+#             " nnoremap <buffer> K :<C-u>LspHover<CR>
+#             nnoremap <buffer> <F1> :<C-u>LspImplementation<CR>
+#             nnoremap <buffer> <F2> :<C-u>LspRename<CR>
+# 
+#             nnoremap <buffer> <C-j> :<C-u>LspNextError<CR>
+#             nnoremap <buffer> <C-k> :<C-u>LspPreviousError<CR>
+#         endfunction
+#     augroup END
+# '''
 
-        if executable('pyls')
-            au User lsp_setup call lsp#register_server({
-                \ 'name': 'pyls',
-                \ 'cmd': {server_info->['pyls']},
-                \ 'whitelist': ['python'],
-                \ })
-            au FileType python call s:configure_lsp()
-        endif
-
-        if executable('gopls')
-            autocmd User lsp_setup call lsp#register_server({
-                \ 'name': 'go-lang',
-                \ 'cmd': {server_info->['gopls']},
-                \ 'whitelist': ['go'],
-                \ })
-            au FileType go call s:configure_lsp()
-        endif
-
-        function! s:configure_lsp() abort
-            setlocal omnifunc=lsp#complete   " オムニ補完を有効化
-            " LSP用にマッピング
-            nnoremap <buffer> <C-]> :<C-u>LspDefinition<CR>
-            nnoremap <buffer> gd :<C-u>LspDefinition<CR>
-            nnoremap <buffer> gD :<C-u>LspReferences<CR>
-            nnoremap <buffer> gs :<C-u>LspDocumentSymbol<CR>
-            nnoremap <buffer> gS :<C-u>LspWorkspaceSymbol<CR>
-            nnoremap <buffer> gQ :<C-u>LspDocumentFormat<CR>
-            vnoremap <buffer> gQ :LspDocumentRangeFormat<CR>
-            " nnoremap <buffer> K :<C-u>LspHover<CR>
-            nnoremap <buffer> <F1> :<C-u>LspImplementation<CR>
-            nnoremap <buffer> <F2> :<C-u>LspRename<CR>
-
-            nnoremap <buffer> <C-j> :<C-u>LspNextError<CR>
-            nnoremap <buffer> <C-k> :<C-u>LspPreviousError<CR>
-        endfunction
+[[plugins]]
+repo = 'mattn/vim-lsp-settings'
+hook_add = '''
+    if empty(globpath(&rtp, 'autoload/lsp.vim'))
+      finish
+    endif
+    
+    function! s:on_lsp_buffer_enabled() abort
+      setlocal omnifunc=lsp#complete
+      setlocal signcolumn=yes
+      nmap <buffer> gd <plug>(lsp-definition)
+      nmap <buffer> <f2> <plug>(lsp-rename)
+      inoremap <expr> <cr> pumvisible() ? "\<c-y>\<cr>" : "\<cr>"
+    endfunction
+    
+    augroup lsp_install
+      au!
+      autocmd User lsp_buffer_enabled call s:on_lsp_buffer_enabled()
     augroup END
+    command! LspDebug let lsp_log_verbose=1 | let lsp_log_file = expand('~/lsp.log')
+    
+    let g:lsp_diagnostics_enabled = 1
+    let g:lsp_diagnostics_echo_cursor = 1
+    let g:asyncomplete_auto_popup = 1
+    let g:asyncomplete_auto_completeopt = 0
+    let g:asyncomplete_popup_delay = 500
+    let g:lsp_text_edit_enabled = 1
 '''
+
+[[plugins]]
+repo = 'mattn/vim-lsp-icons'
+[[plugins]]
+repo = 'hrsh7th/vim-vsnip'
+[[plugins]]
+repo = 'hrsh7th/vim-vsnip-integ'
+
 
 # decomplete - 補完
 [[plugins]]
@@ -197,20 +236,22 @@ hook_add='''
   let g:deoplete#enable_at_startup = 1
 '''
 
-# tabnine
-[[plugins]]
-repo = 'tbodt/deoplete-tabnine'
-hook_post_update = '''
-  if has('win32') || has('win64')
-    let cmd = 'powershell.exe .\install.ps1''
-  else
-    let cmd = './install.sh'
-  endif
-  let g:dein#plugin.build = cmd
-'''
-hook_add = '''
-  set rtp+=~/.vim/plugins/repos/github.com/tbodt/deoplete-tabnine
-'''
+# # tabnine
+# [[plugins]]
+# repo = 'tbodt/deoplete-tabnine'
+# hook_post_update = '''
+#   if has('win32') || has('win64')
+#     let cmd = 'powershell.exe .\install.ps1''
+#   else
+#     let cmd = './install.sh'
+#   endif
+#   let g:dein#plugin.build = cmd
+# '''
+# hook_add = '''
+#   if &ft!~'^\(go\|python\|conf\|vim\|ruby\|java\|js\|c\|cpp\|cs\)$'
+#     set rtp+=~/.vim/plugins/repos/github.com/tbodt/deoplete-tabnine
+#   endif
+# '''
 
 # foldCC - foldの見た目変更
 [[plugins]]
