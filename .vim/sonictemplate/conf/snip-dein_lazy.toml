@@ -1,0 +1,6 @@
+[[plugin]]
+repo = '{{_input_:package}}'
+on_ft = ['{{_cursor_}}']
+hook_add = '''
+'''
+
