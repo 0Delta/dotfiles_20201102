@@ -72,10 +72,10 @@ hook_add = '''
 '''
 
 # ???
-[[plugins]]
-repo = 'Shougo/neco-vim'
-[[plugins]]
-repo = 'Shougo/neco-syntax'
+# [[plugins]]
+# repo = 'Shougo/neco-vim'
+# [[plugins]]
+# repo = 'Shougo/neco-syntax'
 
 # Migemo
 [[plugins]]
@@ -130,16 +130,14 @@ map mg/ <Plug>(incsearch-migemo-stay)
 "    set ignorecase
 '''
 
-
-
 # LSP - 補完サーバ
 [[plugins]]
 repo = 'prabirshrestha/async.vim'
- [[plugins]]
+[[plugins]]
 repo = 'prabirshrestha/asyncomplete.vim'
- [[plugins]]
+[[plugins]]
 repo = 'prabirshrestha/asyncomplete-lsp.vim'
- [[plugins]]
+[[plugins]]
 repo = 'prabirshrestha/vim-lsp'
 # hook_add='''
 #     augroup MyLsp
@@ -223,7 +221,6 @@ repo = 'mattn/vim-lsp-icons'
 repo = 'hrsh7th/vim-vsnip'
 [[plugins]]
 repo = 'hrsh7th/vim-vsnip-integ'
-
 
 # decomplete - 補完
 [[plugins]]

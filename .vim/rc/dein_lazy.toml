@@ -1,53 +1,53 @@
 # SonicTemplate
 [[plugins]]
-on_ft = ['go','c','c++','cpp','java','javascript','python','ruby','typescript','review']
+on_ft = ['go','c','c++','cpp','java','javascript','python','ruby','typescript','review','conf','yaml','yml']
 repo = 'mattn/sonictemplate-vim'
 hook_source = '''
     let g:sonictemplate_postfix_key='<c-b>'
+    let g:sonictemplate_vim_template_dir = ['~/.vim/sonictemplate']
 '''
 
-# Re:View
-[[plugins]]
-repo = 'tokorom/vim-review'
-on_ft = ['review']
-hook_add = '''
-    function! FoldReVIEW(lnum)
-      let line = getline(a:lnum)
-      let next = getline(a:lnum + 1)
-      if line =~ '^=\{1} [^=]\+'
-        return 1
-      elseif next =~ '^=\{1} [^=]\+'
-        return '<1'
-      elseif line =~ '^=\{2} [^=]\+'
-        return 2
-      elseif next =~ '^=\{2} [^=]\+'
-        return '<2'
-      elseif line =~ '^=\{3} [^=]\+'
-        return 3
-      elseif next =~ '^=\{3} [^=]\+'
-        return '<3'
-      elseif line =~ '^=\{4} [^=]\+'
-        return 4
-      elseif next =~ '^=\{4} [^=]\+'
-        return '<4'
-      elseif line =~ '^=\+\[\w\+\] [^=]\+'
-        return 'a1'
-      elseif line =~ '^=\+\[/\w\+\]'
-        return 's1'
-      endif
-      return '='
-    endfunction
-    setl foldmethod=expr foldexpr=FoldReVIEW(v:lnum)
-'''
-
-[[plugins]]
-repo = 'dense-analysis/ale'
-on_ft = ['review']
-hook_add = '''
-	let g:ale_fixers = { 'review': ['redpen'] }
-    let g:ale_sign_column_always = 1
-''' 
-
+# # Re:View
+# [[plugins]]
+# repo = 'tokorom/vim-review'
+# on_ft = ['review']
+# hook_add = '''
+#     function! FoldReVIEW(lnum)
+#       let line = getline(a:lnum)
+#       let next = getline(a:lnum + 1)
+#       if line =~ '^=\{1} [^=]\+'
+#         return 1
+#       elseif next =~ '^=\{1} [^=]\+'
+#         return '<1'
+#       elseif line =~ '^=\{2} [^=]\+'
+#         return 2
+#       elseif next =~ '^=\{2} [^=]\+'
+#         return '<2'
+#       elseif line =~ '^=\{3} [^=]\+'
+#         return 3
+#       elseif next =~ '^=\{3} [^=]\+'
+#         return '<3'
+#       elseif line =~ '^=\{4} [^=]\+'
+#         return 4
+#       elseif next =~ '^=\{4} [^=]\+'
+#         return '<4'
+#       elseif line =~ '^=\+\[\w\+\] [^=]\+'
+#         return 'a1'
+#       elseif line =~ '^=\+\[/\w\+\]'
+#         return 's1'
+#       endif
+#       return '='
+#     endfunction
+#     setl foldmethod=expr foldexpr=FoldReVIEW(v:lnum)
+# '''
+# 
+# [[plugins]]
+# repo = 'dense-analysis/ale'
+# on_ft = ['review']
+# hook_add = '''
+# 	let g:ale_fixers = { 'review': ['redpen'] }
+#     let g:ale_sign_column_always = 1
+# ''' 
 
 # Golang
 [[plugins]]
@@ -97,40 +97,40 @@ on_ft = ['go','golang']
 #     setl foldmethod=syntax
 # '''
 
-# markdown
-[[plugin]]
-repo = 'godlygeek/tabular'
-on_ft = ['md','markdown']
-[[plugin]]
-repo = 'plasticboy/vim-markdown'
-on_ft = ['md','markdown']
-
-# Vue
-[[plugins]]
-repo = 'posva/vim-vue'
-on_ft = ['vue']
-hook_add = '''
-	au FileType vue syntax sync fromstart
-	let g:ft = ''
-	function! NERDCommenter_before()
-	  if &ft == 'vue'
-		let g:ft = 'vue'
-		let stack = synstack(line('.'), col('.'))
-		if len(stack) > 0
-		  let syn = synIDattr((stack)[0], 'name')
-		  if len(syn) > 0
-			exe 'setf ' . substitute(tolower(syn), '^vue_', '', '')
-		  endif
-		endif
-	  endif
-	endfunction
-	function! NERDCommenter_after()
-	  if g:ft == 'vue'
-		setf vue
-		let g:ft = ''
-	  endif
-	endfunction
-'''
+# # markdown
+# [[plugin]]
+# repo = 'godlygeek/tabular'
+# on_ft = ['md','markdown']
+# [[plugin]]
+# repo = 'plasticboy/vim-markdown'
+# on_ft = ['md','markdown']
+# 
+# # Vue
+# [[plugins]]
+# repo = 'posva/vim-vue'
+# on_ft = ['vue']
+# hook_add = '''
+# 	au FileType vue syntax sync fromstart
+# 	let g:ft = ''
+# 	function! NERDCommenter_before()
+# 	  if &ft == 'vue'
+# 		let g:ft = 'vue'
+# 		let stack = synstack(line('.'), col('.'))
+# 		if len(stack) > 0
+# 		  let syn = synIDattr((stack)[0], 'name')
+# 		  if len(syn) > 0
+# 			exe 'setf ' . substitute(tolower(syn), '^vue_', '', '')
+# 		  endif
+# 		endif
+# 	  endif
+# 	endfunction
+# 	function! NERDCommenter_after()
+# 	  if g:ft == 'vue'
+# 		setf vue
+# 		let g:ft = ''
+# 	  endif
+# 	endfunction
+# '''
 
 # folddigest - 折りたたみリスト機能
 [[plugins]]
@@ -141,66 +141,66 @@ hook_add='''
     map zw :call FoldDigest()<CR>
 '''
 
-[[plugins]]
-on_ft=['tf','terraform']
-repo = 'hashivim/vim-terraform'
-hook_add='''
-    let g:terraform_fmt_on_save = 1
-'''
-
-[[plugins]]
-on_ft=['py','python']
-repo = 'vim-syntastic/syntastic'
-hook_add='''
-    let g:lsp_diagnostics_enabled = 0
-    let g:syntastic_python_checkers = ['flake8']
-    function! FoldPython(lnum)
-      let line = getline(a:lnum)
-      for i in range(1,4)
-          let next = getline(a:lnum + i)
-          if next != ''
-              break
-          endif
-      endfor
-      if line =~ '^\(\(class\)\|\(def\)\|\(if\)\).\+'
-        return 1
-      elseif next =~ '^\(\(class\)\|\(def\)\|\(if\)\).\+'
-        return '<1'
-      elseif line =~ '^    \(\(class\)\|\(def\)\).\+'
-        return 2
-      elseif next =~ '^    \(\(class\)\|\(def\)\).\+'
-        return '<2'
-      elseif line =~ '^        \(\(class\)\|\(def\)\).\+'
-        return 3
-      elseif next =~ '^        \(\(class\)\|\(def\)\).\+'
-        return '<3'
-      endif
-      return '='
-    endfunction
-    setl foldmethod=expr foldexpr=FoldPython(v:lnum)
-'''
-
-# python linter
-[[plugins]]
-repo = 'lambacck/preserve-vim'
-
-[[plugins]]
-on_ft=['py','python']
-repo = 'tell-k/vim-autopep8'
-hook_add='''
-	let g:autopep8_ignore="E501"
-'''
-
-# js linter
-[[plugins]]
-repo = 'maksimr/vim-jsbeautify'
-on_ft=['grads','javascript','json','html','css']
-hook_add = '''
-    if executable('js-beautify')
-      command! -range=% -nargs=* HTMLTidy <line1>,<line2>call RangeHtmlBeautify()
-      command! -range=% -nargs=* JSTidy <line1>,<line2>call RangeJsBeautify()
-      command! -range=% -nargs=* CSSTidy <line1>,<line2>call RangeCSSBeautify()
-      command! -range=% -nargs=* JSONTidy <line1>,<line2>call RangeJsonBeautify()
-    endif
-'''
+# [[plugins]]
+# on_ft=['tf','terraform']
+# repo = 'hashivim/vim-terraform'
+# hook_add='''
+#     let g:terraform_fmt_on_save = 1
+# '''
+# 
+# [[plugins]]
+# on_ft=['py','python']
+# repo = 'vim-syntastic/syntastic'
+# hook_add='''
+#     let g:lsp_diagnostics_enabled = 0
+#     let g:syntastic_python_checkers = ['flake8']
+#     function! FoldPython(lnum)
+#       let line = getline(a:lnum)
+#       for i in range(1,4)
+#           let next = getline(a:lnum + i)
+#           if next != ''
+#               break
+#           endif
+#       endfor
+#       if line =~ '^\(\(class\)\|\(def\)\|\(if\)\).\+'
+#         return 1
+#       elseif next =~ '^\(\(class\)\|\(def\)\|\(if\)\).\+'
+#         return '<1'
+#       elseif line =~ '^    \(\(class\)\|\(def\)\).\+'
+#         return 2
+#       elseif next =~ '^    \(\(class\)\|\(def\)\).\+'
+#         return '<2'
+#       elseif line =~ '^        \(\(class\)\|\(def\)\).\+'
+#         return 3
+#       elseif next =~ '^        \(\(class\)\|\(def\)\).\+'
+#         return '<3'
+#       endif
+#       return '='
+#     endfunction
+#     setl foldmethod=expr foldexpr=FoldPython(v:lnum)
+# '''
+# 
+# # python linter
+# [[plugins]]
+# repo = 'lambacck/preserve-vim'
+# 
+# [[plugins]]
+# on_ft=['py','python']
+# repo = 'tell-k/vim-autopep8'
+# hook_add='''
+# 	let g:autopep8_ignore="E501"
+# '''
+# 
+# # js linter
+# [[plugins]]
+# repo = 'maksimr/vim-jsbeautify'
+# on_ft=['grads','javascript','json','html','css']
+# hook_add = '''
+#     if executable('js-beautify')
+#       command! -range=% -nargs=* HTMLTidy <line1>,<line2>call RangeHtmlBeautify()
+#       command! -range=% -nargs=* JSTidy <line1>,<line2>call RangeJsBeautify()
+#       command! -range=% -nargs=* CSSTidy <line1>,<line2>call RangeCSSBeautify()
+#       command! -range=% -nargs=* JSONTidy <line1>,<line2>call RangeJsonBeautify()
+#     endif
+# '''
 
