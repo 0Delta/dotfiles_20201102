@@ -4,4 +4,5 @@ oh-my-fish/theme-bobthefish
 fisherman/z
 fisherman/spin
 edc/bass
-acomagu/fish-async-prompt
+evanlucas/fish-kubectl-completions
+acomagu/fish-async-prompt@1511808950211854f53211f0b88634a007102a12
