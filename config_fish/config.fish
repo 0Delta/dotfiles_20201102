@@ -71,3 +71,9 @@ alias terraform='docker run --rm -it -v $PWD:/app --workdir /app hashicorp/terra
 # set -x LANG ja_JP.UTF-8
 # set -x LC_TYPE ja_JP.UTF-8
 
+# ls after cd
+functions --copy cd standard_cd
+
+function cd
+  standard_cd $argv; and pwd; and ls
+end
