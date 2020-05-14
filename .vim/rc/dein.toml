@@ -33,12 +33,12 @@ repo = '0Delta/vimodoro'
 repo = 'vim-jp/vimdoc-ja'
 
 # NERDTree
-[[plugins]]
-repo = 'scrooloose/nerdtree'
-hook_add = '''
-    nnoremap <C-t> :NERDTreeToggle<CR>
-    let NERDTreeIgnore = ['\.pyc$','\.swp$','\.meta$']
-'''
+# [[plugins]]
+# repo = 'scrooloose/nerdtree'
+# hook_add = '''
+#     nnoremap <C-t> :NERDTreeToggle<CR>
+#     let NERDTreeIgnore = ['\.pyc$','\.swp$','\.meta$']
+# '''
 
 # clever-f
 # [[plugins]]
@@ -211,7 +211,7 @@ hook_add = '''
     let g:lsp_diagnostics_echo_cursor = 1
     let g:asyncomplete_auto_popup = 1
     let g:asyncomplete_auto_completeopt = 0
-    let g:asyncomplete_popup_delay = 500
+    let g:asyncomplete_popup_delay = 3000
     let g:lsp_text_edit_enabled = 1
 '''
 
@@ -221,6 +221,13 @@ repo = 'mattn/vim-lsp-icons'
 repo = 'hrsh7th/vim-vsnip'
 [[plugins]]
 repo = 'hrsh7th/vim-vsnip-integ'
+[[plugins]]
+repo = 'hashivim/vim-terraform'
+hook_add='''
+    let g:terraform_align=1
+    let g:terraform_fold_sections=1
+    let g:terraform_fmt_on_save=1
+'''
 
 # decomplete - 補完
 [[plugins]]

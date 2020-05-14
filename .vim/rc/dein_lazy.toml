@@ -1,6 +1,6 @@
 # SonicTemplate
 [[plugins]]
-on_ft = ['go','c','c++','cpp','java','javascript','python','ruby','typescript','review','conf','yaml','yml']
+on_ft = ['go','c','c++','cpp','java','javascript','python','ruby','typescript','review','conf','yaml','yml','dockerfile']
 repo = 'mattn/sonictemplate-vim'
 hook_source = '''
     let g:sonictemplate_postfix_key='<c-b>'
@@ -203,4 +203,40 @@ hook_add='''
 #       command! -range=% -nargs=* JSONTidy <line1>,<line2>call RangeJsonBeautify()
 #     endif
 # '''
+
+[[plugins]]
+repo = 'koron/dicwin-vim'
+on_event = ['FocusLost', 'CursorHold']
+
+[[plugins]]
+repo = 'skanehira/translate.vim'
+on_event = ['FocusLost', 'CursorHold']
+hook_add = '''
+    let g:translate_source = "en"
+    let g:translate_target = "ja"
+    let g:translate_winsize = 10
+'''
+
+# FileTree
+[[plugins]]
+repo = 'lambdalisue/fern.vim'
+on_event = ['FocusLost', 'CursorHold']
+hook_add = '''
+    function! s:init_fern() abort
+      " Use 'select' instead of 'edit' for default 'open' action
+      nmap <buffer> <Plug>(fern-action-open) <Plug>(fern-action-open:select)
+      nmap d <Plug>(fern-action-cd)
+    endfunction
+
+    augroup fern-custom
+      autocmd! *
+      autocmd FileType fern call s:init_fern()
+    augroup END
+'''
+
+[[plugins]]
+repo = 'tpope/vim-obsession'
+on_event = ['FocusLost', 'CursorHold']
+hook_add = '''
+'''
 
