@@ -1,5 +1,6 @@
 # load bashrc
 bass source ~/.bash_profile
+bass source ~/.bashrc
 
 # Ctrl-R peco history search
 function fish_user_key_bindings
@@ -8,19 +9,20 @@ end
 
 # ovewrite prompt
 function fish_right_prompt -d 'Write out the right prompt'
-  printf ''
+  printf '⎈ %s' (set_color brblue)(kubectl config current-context)(set_color white)
 end
 
 # # PATH
 # set -x PATH /opt/local/bin /opt/local/sbin $PATH
 # set -x PATH $HOME/bin $HOME/.cask/bin $HOME/py35/bin $PATH
 
-# ### Google Cloud
-# set -x PATH $PATH $HOME/google-cloud-sdk/bin
-# set -x GOOGLE_APPLICATION_CREDENTIALS $HOME/gcpkey.json
-# alias gcloud-shell 'gcloud alpha interactive'
+### Google Cloud
+set -x PATH $PATH $HOME/google-cloud-sdk/bin
+set -x GOOGLE_APPLICATION_CREDENTIALS $HOME/gcpkey.json
+alias gcloud-shell 'gcloud alpha interactive'
 # alias gssh '$HOME/bin/gcp_compute_ssh.sh'
-# alias gcloud-chcnf 'gcloud config configurations activate (gcloud config configurations list | tail -n +2 | peco | cut -d " " -f 1)'
+alias gcloud-chcnf 'gcloud config configurations activate (gcloud config configurations list | tail -n +2 | peco | cut -d " " -f 1)'
+set -x LD_LIBRARY_PATH /usr/lib/
 
 ### shell
 set -x SHELL /usr/bin/fish
@@ -31,15 +33,32 @@ set -x VISUAL "vim"
 set -x PIPENV_VENV_IN_PROJECT true
 
 ### golang
+set -x PATH $PATH /usr/local/go/bin
 set -x GOPATH $HOME/go
+set -x PATH $PATH $GOPATH/bin
 set -x GO111MODULE on
+
+### python
+set -x PATH $PATH $HOME/.local/bin
+
+### redpen
+set -x PATH $PATH /usr/local/redpen/bin
+
+### kubectx
+set -x PATH $PATH $HOME/.kubectx
+
+### krew
+set -x PATH $PATH $HOME/.krew/bin
+
+if test -f /usr/bin/lsyncd 
+    /usr/bin/lsyncd /etc/lsyncd/lsyncd.conf.lua 
+end
 
 # ### path
 # set -g fish_user_paths "/usr/local/bin" $fish_user_paths
 # set -g fish_user_paths "/usr/local/sbin" $fish_user_paths
 # set -g fish_user_paths "/usr/local/opt/binutils/bin" $fish_user_paths
 # set -x PATH "$HOME/bin:$PATH"
-# set -x PATH "$PATH:$GOPATH/bin"
 # set -x PATH "$HOME/.nodebrew/current/bin:$PATH"
 # set -x PATH "/usr/local/bin:$PATH"
 # set -x PATH "$HOME/bin/vim/bin:$PATH"
@@ -49,6 +68,7 @@ set -x GO111MODULE on
 alias lsync-stat "sudo service lsyncd status;cat /tmp/lsyncd.status | grep -E '^Sync' -A1"
 alias starwars "telnet towel.blinkenlights.nl"
 alias tailf "tail -f"
+alias vl "view -"
 alias cls "clear"
 alias g "git"
 alias kc "kubectl"

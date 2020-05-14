@@ -31,6 +31,7 @@
 #     set -g theme_display_k8s_namespace no
 #     set -g theme_display_hg yes
 #     set -g theme_display_virtualenv no
+#     set -g theme_display_nix no
 #     set -g theme_display_ruby no
 #     set -g theme_display_user ssh
 #     set -g theme_display_hostname ssh
@@ -392,7 +393,7 @@ function __bobthefish_finish_segments -S -d 'Close open prompt segments'
 
         if set -q theme_newline_prompt
             echo -ens "$theme_newline_prompt"
-        else if [ "$theme_powerline_fonts" = "no" ]
+        else if [ "$theme_powerline_fonts" = "no" -a "$theme_nerd_fonts" != "yes" ]
             echo -ns '> '
         else
             echo -ns "$right_arrow_glyph "
@@ -407,7 +408,7 @@ end
 
 
 # ==============================
-# Status and input mode segments
+# Status segment
 # ==============================
 
 function __bobthefish_prompt_status -S -a last_status -d 'Display flags for a non-zero exit status, root user, and background jobs'
@@ -482,32 +483,6 @@ function __bobthefish_prompt_status -S -a last_status -d 'Display flags for a no
                 echo -n $bg_job_glyph
             end
         end
-    end
-end
-
-function __bobthefish_prompt_vi -S -d 'Display vi mode'
-    [ "$theme_display_vi" != 'no' ]
-    or return
-
-    [ "$fish_key_bindings" = 'fish_vi_key_bindings' \
-        -o "$fish_key_bindings" = 'hybrid_bindings' \
-        -o "$fish_key_bindings" = 'fish_hybrid_key_bindings' \
-        -o "$theme_display_vi" = 'yes' ]
-    or return
-
-    switch $fish_bind_mode
-        case default
-            __bobthefish_start_segment $color_vi_mode_default
-            echo -n 'N '
-        case insert
-            __bobthefish_start_segment $color_vi_mode_insert
-            echo -n 'I '
-        case replace_one replace-one
-            __bobthefish_start_segment $color_vi_mode_insert
-            echo -n 'R '
-        case visual
-            __bobthefish_start_segment $color_vi_mode_visual
-            echo -n 'V '
     end
 end
 
@@ -649,6 +624,10 @@ function __bobthefish_prompt_k8s_context -S -d 'Show current Kubernetes context'
 
     [ "$theme_display_k8s_namespace" = 'yes' ]
     and set -l namespace (__bobthefish_k8s_namespace)
+
+    [ -z $context -o "$context" = 'default' ]
+    and [ -z $namespace -o "$namespace" = 'default' ]
+    and return
 
     set -l segment $k8s_glyph " " $context
     [ -n "$namespace" ]
@@ -803,11 +782,13 @@ function __bobthefish_prompt_rubies -S -d 'Display current Ruby information'
     else if type -q chruby # chruby is implemented as a function, so omitting the -f is intentional
         set ruby_version $RUBY_VERSION
     else if type -fq asdf
-        asdf current ruby 2>/dev/null | read -l asdf_ruby_version asdf_provenance
+        set -l asdf_current_ruby (asdf current ruby 2>/dev/null)
         or return
 
+        echo "$asdf_current_ruby" | read -l asdf_ruby_version asdf_provenance
+
         # If asdf changes their ruby version provenance format, update this to match
-        [ "$asdf_provenance" = "(set by $HOME/.tool-versions)" ]
+        [ (string trim -- "$asdf_provenance") = "(set by $HOME/.tool-versions)" ]
         and return
 
         set ruby_version $asdf_ruby_version
@@ -883,6 +864,15 @@ function __bobthefish_prompt_nvm -S -d 'Display current node version through NVM
     set_color normal
 end
 
+function __bobthefish_prompt_nix -S -d 'Display current nix environment'
+    [ "$theme_display_nix" = 'no' -o -z "$IN_NIX_SHELL" ]
+    and return
+
+    __bobthefish_start_segment $color_nix
+    echo -ns $nix_glyph $IN_NIX_SHELL ' '
+
+    set_color normal
+end
 
 # ==============================
 # VCS segments
@@ -1071,7 +1061,6 @@ function fish_prompt -d 'bobthefish, a fish theme optimized for awesome'
 
     # Status flags and input mode
     __bobthefish_prompt_status $last_status
-    __bobthefish_prompt_vi
 
     # User / hostname info
     __bobthefish_prompt_user
@@ -1082,6 +1071,7 @@ function fish_prompt -d 'bobthefish, a fish theme optimized for awesome'
     __bobthefish_prompt_k8s_context
 
     # Virtual environments
+    __bobthefish_prompt_nix
     __bobthefish_prompt_desk
     __bobthefish_prompt_rubies
     __bobthefish_prompt_virtualfish
