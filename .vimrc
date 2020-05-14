@@ -1,5 +1,6 @@
 set encoding=utf-8
 scriptencoding utf-8
+set cedit=<C-c>
 
 " dein{{{
 " dein初期設定{{{
@@ -61,12 +62,6 @@ function! s:switchFoldMax() abort
 endfunc
 nnoremap zz :<C-u>call <SID>switchFoldMax()<CR>
 
-" Save fold settings.
-autocmd BufWritePost * if expand('%') != '' && &buftype !~ 'nofile' | mkview | endif
-autocmd BufRead * if expand('%') != '' && &buftype !~ 'nofile' | silent loadview | endif
-" Don't save options.
-set viewoptions-=options
-
 augroup fo
   au FileType vim setlocal foldmethod=marker
   au FileType toml setlocal foldmethod=marker
@@ -78,7 +73,9 @@ augroup fo
   au FileType ruby setlocal foldmethod=syntax
   au FileType review setlocal foldmethod=expr
 augroup END
+
 "}}}
+
 " keymap(vim){{{
 " 上下移動は位置を保持するように
 noremap j gj
@@ -91,14 +88,14 @@ noremap <S-j>   }
 noremap <S-k>   {
 
 " Option+移動キーで移動できるように(不安定/Mac専用)
-noremap <D-h>   ^
-noremap <D-l>   $
+" noremap <D-h>   ^
+" noremap <D-l>   $
 
 " Ctrl+移動キーで移動できるように
 noremap <C-h>   ^
 noremap <C-l>   $
-noremap <C-j>   }
-noremap <C-k>   {
+" noremap <C-j>   }
+" noremap <C-k>   {
 
 " (shift)Tab でインデント
 nnoremap <Tab>  >>
@@ -181,6 +178,7 @@ set listchars=tab:»-,trail:-,eol:↲,extends:»,precedes:«,nbsp:%
 nnoremap <silent> ! :bo terminal <CR>
 
 "}}}
+
 " vim-switch-setting{{{
 
 filetype plugin indent on
@@ -243,7 +241,7 @@ augroup fileTypeIndent
   autocmd BufNewFile,BufRead *.yml setlocal tabstop=2 softtabstop=2 shiftwidth=2
   autocmd BufNewFile,BufRead *.yaml setlocal tabstop=2 softtabstop=2 shiftwidth=2
   autocmd BufNewFile,BufRead .vimrc setlocal tabstop=2 softtabstop=2 shiftwidth=2
-  autocmd BufNewFile,BufRead makefile setlocal tabstop=8 softtabstop=8 shiftwidth=8 noexpandtab
+  autocmd BufNewFile,BufRead make setlocal tabstop=8 softtabstop=8 shiftwidth=8 noexpandtab
   autocmd BufNewFile,BufRead *.re setlocal tabstop=8 softtabstop=8 shiftwidth=8 noexpandtab
 augroup END
 
@@ -273,6 +271,7 @@ endif
 " ハイライトを消す
 noh
 "}}}
+
 " 色とステータスラインの設定 {{{
 " ステータスラインを表示
 set laststatus=2
@@ -400,6 +399,27 @@ augroup END
 "}}}
 "}}}
 
+" indent移動 {{{
+function! s:same_indent(dir) abort
+  let lnum = line('.')
+  let width = col('.') <= 1 ? 0 : strdisplaywidth(matchstr(getline(lnum)[: col('.')-2], '^\s*'))
+  while 1 <= lnum && lnum <= line('$')
+    let lnum += (a:dir ==# '+' ? 1 : -1)
+    let line = getline(lnum)
+    if width >= strdisplaywidth(matchstr(line, '^\s*')) && line =~# '^\s*\S'
+      break
+    endif
+  endwhile
+  return abs(line('.') - lnum) . a:dir
+endfunction
+nnoremap <expr><silent> aj <SID>same_indent('+')
+nnoremap <expr><silent> ak <SID>same_indent('-')
+onoremap <expr><silent> aj <SID>same_indent('+')
+onoremap <expr><silent> ak <SID>same_indent('-')
+xnoremap <expr><silent> aj <SID>same_indent('+')
+xnoremap <expr><silent> ak <SID>same_indent('-')
+"}}}
+
 " quickfix ウィンドウのみの場合に自動で閉じる{{{
 augroup QfAutoCommands
   autocmd!
@@ -416,4 +436,11 @@ if executable("win32yank.exe")
 endif
 "}}}
 
+" foldの設定を保存する {{{
+" Save fold settings.
+autocmd BufWritePost * if expand('%') != '' && &buftype !~ 'nofile' | mkview | endif
+autocmd BufRead * if expand('%') != '' && &buftype !~ 'nofile' | silent loadview | endif
+" Don't save options.
+set viewoptions-=options
+"}}}
 
