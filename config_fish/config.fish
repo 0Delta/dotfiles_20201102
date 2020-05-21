@@ -1,6 +1,9 @@
+
 # load bashrc
-bass source ~/.bash_profile
-bass source ~/.bashrc
+if type -q bass
+    bass source ~/.bash_profile
+    bass source ~/.bashrc
+end
 
 # Ctrl-R peco history search
 function fish_user_key_bindings
@@ -17,12 +20,16 @@ end
 # set -x PATH $HOME/bin $HOME/.cask/bin $HOME/py35/bin $PATH
 
 ### Google Cloud
-set -x PATH $PATH $HOME/google-cloud-sdk/bin
-set -x GOOGLE_APPLICATION_CREDENTIALS $HOME/gcpkey.json
-alias gcloud-shell 'gcloud alpha interactive'
-# alias gssh '$HOME/bin/gcp_compute_ssh.sh'
-alias gcloud-chcnf 'gcloud config configurations activate (gcloud config configurations list | tail -n +2 | peco | cut -d " " -f 1)'
-set -x LD_LIBRARY_PATH /usr/lib/
+if type -q gcloud
+    set -x PATH $PATH $HOME/google-cloud-sdk/bin
+    set -x GOOGLE_APPLICATION_CREDENTIALS $HOME/gcpkey-c1e781856f52.json
+    set -x LD_LIBRARY_PATH /usr/lib/
+
+    # alias gssh '$HOME/bin/gcp_compute_ssh.sh'
+    alias gcloud-shell 'gcloud alpha interactive'
+    alias gcloud-chcnf='gcloud config configurations activate (gcloud config configurations list | tail -n +2 | peco | cut -d " " -f 1)'
+    alias gcloud-shell='gcloud alpha interactive'
+end
 
 ### shell
 set -x SHELL /usr/bin/fish
@@ -30,13 +37,17 @@ set -x EDITOR "vim"
 set -x VISUAL "vim"
 
 ### pipenv
-set -x PIPENV_VENV_IN_PROJECT true
+if type -q pipenv
+    set -x PIPENV_VENV_IN_PROJECT true
+end
 
 ### golang
-set -x PATH $PATH /usr/local/go/bin
-set -x GOPATH $HOME/go
-set -x PATH $PATH $GOPATH/bin
-set -x GO111MODULE on
+if type -q go
+    set -x PATH $PATH /usr/local/go/bin
+    set -x GOPATH $HOME/go
+    set -x PATH $PATH $GOPATH/bin
+    set -x GO111MODULE on
+end
 
 ### python
 set -x PATH $PATH $HOME/.local/bin
@@ -45,13 +56,18 @@ set -x PATH $PATH $HOME/.local/bin
 set -x PATH $PATH /usr/local/redpen/bin
 
 ### kubectx
-set -x PATH $PATH $HOME/.kubectx
+if test -d $HOME/.kubectx
+    set -x PATH $PATH $HOME/.kubectx
+end
 
 ### krew
-set -x PATH $PATH $HOME/.krew/bin
+if test -d $HOME/.krew
+    set -x PATH $PATH $HOME/.krew/bin
+end
 
 if test -f /usr/bin/lsyncd 
     /usr/bin/lsyncd /etc/lsyncd/lsyncd.conf.lua 
+    alias lsync-stat "sudo service lsyncd status;cat /tmp/lsyncd.status | grep -E '^Sync' -A1"
 end
 
 # ### path
@@ -65,23 +81,28 @@ end
 # set -x PATH (echo $PATH | tr ' ' '\n' | sort -u | paste -d: -s -)
 
 ### alias
-alias lsync-stat "sudo service lsyncd status;cat /tmp/lsyncd.status | grep -E '^Sync' -A1"
 alias starwars "telnet towel.blinkenlights.nl"
 alias tailf "tail -f"
 alias vl "view -"
 alias cls "clear"
 alias g "git"
-alias kc "kubectl"
-alias kc-reset "kubectl config use-context kind-kind"
+
+if type -q kubectl
+    alias kc "kubectl"
+    alias kc-reset "kubectl config use-context kind-kind"
+end
+
+alias rm "trash"
+
 # alias ccls "$GOPATH/bin/longcat -l 10 -i 0.4 -H"
-# alias rm "trash"
 # alias nosleep "caffeinate"
 # eval (hub alias -s)
 # alias less "~/bin/vim/share/vim/vim81/macros/less.sh"
 # alias more "~/bin/vim/share/vim/vim81/macros/less.sh"
-alias gcloud-chcnf='gcloud config configurations activate (gcloud config configurations list | tail -n +2 | peco | cut -d " " -f 1)'
-alias gcloud-shell='gcloud alpha interactive'
-alias winexp='explorer.exe (wslpath -a -w $PWD)'
+
+if type -q explorer.exe
+    alias winexp='explorer.exe (wslpath -a -w $PWD)'
+end
 
 
 alias helm='docker run -e KUBECONFIG="/root/.kube/config:/root/.kube/some-other-context.yaml" -e XDG_CONFIG_HOME="/root/.config/" -e XDG_DATA_HOME="/root/.local/share" -ti --rm -v $PWD:/apps -v ~/.kube:/root/.kube -v ~/.helm:/root/.helm -v ~/.config/helm:/root/.config/helm -v ~/.local/share/helm:/root/.local/share/helm alpine/helm'
