@@ -7,3 +7,6 @@
 [submodule "kubectx"]
 	path = kubectx
 	url = git@github.com:ahmetb/kubectx.git
+[submodule "fzf"]
+	path = fzf
+	url = git@github.com:junegunn/fzf.git
