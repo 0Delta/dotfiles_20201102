@@ -13,6 +13,7 @@ links=(
     ".vimrc ~/"
     ".vim ~/"
     ".tmux.conf ~/"
+    "fzf ~/.fzf"
 
     "config_fish ~/.config/fish"
     "config_fisher ~/.config/fisher"
