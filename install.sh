@@ -3,6 +3,9 @@
 cd $(dirname $0)
 DOTFILES_DIR=$(pwd)
 
+if [ ! -e "~/.config" ]; then
+    mkdir -p ~/.config
+fi
 
 links=(
     ".bash_profile ~/"

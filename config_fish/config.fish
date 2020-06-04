@@ -20,7 +20,7 @@ end
 # set -x PATH $HOME/bin $HOME/.cask/bin $HOME/py35/bin $PATH
 
 ### Google Cloud
-if type -q gcloud
+if test -d $HOME/google-cloud-sdk
     set -x PATH $PATH $HOME/google-cloud-sdk/bin
     set -x GOOGLE_APPLICATION_CREDENTIALS $HOME/gcpkey-c1e781856f52.json
     set -x LD_LIBRARY_PATH /usr/lib/
@@ -42,7 +42,7 @@ if type -q pipenv
 end
 
 ### golang
-if type -q go
+if test -d /usr/local/go/bin
     set -x PATH $PATH /usr/local/go/bin
     set -x GOPATH $HOME/go
     set -x PATH $PATH $GOPATH/bin
@@ -104,9 +104,12 @@ if type -q explorer.exe
     alias winexp='explorer.exe (wslpath -a -w $PWD)'
 end
 
+# if type -q gh
+#     gh completion -s fish > /dev/null &
+# end
 
 alias helm='docker run -e KUBECONFIG="/root/.kube/config:/root/.kube/some-other-context.yaml" -e XDG_CONFIG_HOME="/root/.config/" -e XDG_DATA_HOME="/root/.local/share" -ti --rm -v $PWD:/apps -v ~/.kube:/root/.kube -v ~/.helm:/root/.helm -v ~/.config/helm:/root/.config/helm -v ~/.local/share/helm:/root/.local/share/helm alpine/helm'
-alias terraform='docker run --rm -it -v $PWD:/app --workdir /app hashicorp/terraform:0.11.8'
+alias terraform='docker run --rm -it -v $HOME/.config/gcloud:/root/.config/gcloud:ro -v $PWD:/app --workdir /app hashicorp/terraform:0.11.8'
 
 ### fontcode
 # set -x LANG ja_JP.UTF-8
